@@ -189,11 +189,19 @@ namespace Omit {
   type Omit<Type, Keys> = {
     [P in Demo<keyof Type, Keys>]: Type
   }
-  
   interface Todo {
     title: string;
     description: string;
     completed: boolean;
   }
   type T = Omit<Todo, 'description'>
+}
+/** 逃离舱
+ * 如果想让 Demo<'a' | 'b' | 'c', 'a'> 的结果为 'a' | 'b' | 'c' 是否可以实现呢?
+ * 如果不想遍历泛型中的每一个类型，可以用方括号[]将泛型给括起来以表示使用该泛型的整体部分。
+ */
+namespace 逃离舱 {
+  type Demo<T, U> = [T] extends [U] ? never : T
+  type result = Demo<'a' | 'b' | 'c', 'a'>
+  var res: result = 'c'
 }
